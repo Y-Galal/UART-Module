@@ -4,15 +4,15 @@
 // Company: 
 // Engineer:
 //
-// Create Date:   15:57:16 01/28/2021
-// Design Name:   tx
-// Module Name:   E:/Working/Projects/UART-Module/tx_tb.v
+// Create Date:   17:55:39 01/27/2021
+// Design Name:   rx
+// Module Name:   E:/Working/Projects/UART-Module/rx_test.v
 // Project Name:  UART-Module
 // Target Device:  
 // Tool versions:  
-// Description: test bench for the transmitter
+// Description: rx testbench 
 //
-// Verilog Test Fixture created by ISE for module: tx
+// Verilog Test Fixture created by ISE for module: rx
 //
 // Dependencies:
 // 
@@ -22,43 +22,51 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module tx_tb;
+module rx_tb;
 
 	// Inputs
-	reg [7:0] Data_to_send;
-	reg Tx_Start;
 	reg clock;
+	reg rx_in;
+	
 
 	// Outputs
-	wire Tx;
-	wire Tx_Busy;
+	wire error;
+	wire [7:0] Rx;
 
 	// Instantiate the Unit Under Test (UUT)
-	tx uut (
-		.Data_to_send(Data_to_send), 
-		.Tx_Start(Tx_Start), 
+	rx uut (
 		.clock(clock), 
-		.Tx(Tx), 
-		.Tx_Busy(Tx_Busy)
+		.rx_in(rx_in), 
+		.error(error), 
+		.Rx(Rx)
 	);
 
 	initial begin
 		// Initialize Inputs
-		Data_to_send = 0;
-		Tx_Start = 0;
 		clock = 1;
+		rx_in = 1;
+
 
 		// Wait 100 ns for global reset to finish
-		#10;
-        
+		#100;
+      
 		// Add stimulus here
+		#868 rx_in = 1'b0;		//10101010
+		#868 rx_in = 1'b0;
+		#868 rx_in = 1'b1;
+		#868 rx_in = 1'b0;
+		#868 rx_in = 1'b1;
+		#868 rx_in = 1'b0;
+		#868 rx_in = 1'b1;
+		#868 rx_in = 1'b0;
+		#868 rx_in = 1'b1;
+		#868 rx_in = 1'b0;
+		#868 rx_in = 1'b1;
 		
-		Data_to_send = 8'b10101010;
-		Tx_Start = 1;
-		#1 Tx_Start=0;
 
 		
+		
 	end
-      always #1 clock = ~clock;
+     always #1 clock = ~clock; 
 endmodule
 
